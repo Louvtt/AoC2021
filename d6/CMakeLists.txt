@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.1)
+project(AocD6 CXX)
+# find_package(Threads REQUIRED)
+add_executable(AocD6 main.cpp)
+# target_link_libraries(AocD6 ${CMAKE_THREAD_LIBS_INIT})
+# target_link_libraries(AocD6 Threads::Threads)
