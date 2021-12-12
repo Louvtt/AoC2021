@@ -88,7 +88,8 @@ const flash = (data, x, y) => {
     return data;
 }
 
-const animDuration = 10; // seconds
+const animDuration = 10 * 1000; // milliseconds
+const iterations   = 300;
 const processData = (data, ctx) => {
     data.ctx = ctx;
     data.flashCount = 0;
@@ -110,13 +111,17 @@ const processData = (data, ctx) => {
             }
         }
 
+        if(data.hasFlash.length == data.size.w * data.size.h) {
+            console.log("All flashed at:", i+1);
+        }
+
         // show step value
         showData(data);
         // run next if not finished state
         out.textContent = `${i}: ${data.flashCount}`;
         i++;
-        if(i < 100)
-            setTimeout(next, animDuration * 10) // 1000 / 100 = 10 (seconds / iterations)
+        if(i < iterations)
+            setTimeout(next, animDuration / iterations) // 1000 / 100 = 10 (seconds / iterations)
     }
 
     next();
