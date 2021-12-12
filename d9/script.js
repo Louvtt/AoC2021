@@ -24,6 +24,12 @@ const readData = (txt) => {
 
 let bassinI = -1;
 const showData = (data, ctx) => {
+    const rgb = (h) => {
+        let t = h / 9.;
+        return `rgb(${219 * t}, ${76 * t}, ${32 * t})`;
+    }
+
+
     // clear
     ctx.fillStyle = "#FF4422";
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -31,8 +37,7 @@ const showData = (data, ctx) => {
     const cellSize = ctx.canvas.width / Math.max(data.size.w, data.size.h);
     for(let y = 0; y < data.size.h; ++y) {
         for(let x = 0; x < data.size.w; ++x) {
-            let color = (data.map[y][x] / 9.) * 255.; // map to [0; 1] => [0; 255]
-            ctx.fillStyle = (data.droplets[y][x])? `rgb(0,0,255)` : `rgb(${color},${color}, ${color})`;
+            ctx.fillStyle = (data.droplets[y][x])? `rgb(0,0,255)` : rgb(data.map[y][x]); // color based if lava or not
             ctx.fillRect(
                 cellSize *  x   , cellSize *  y,
                 cellSize, cellSize
@@ -54,8 +59,7 @@ const showData = (data, ctx) => {
         let bassin = data.bassins[bassin_i];
         for(let cellstr of bassin) {
             let cell = de(cellstr);
-            let color = ((data.map[cell.y][cell.x] + 2) / 9.) * 255.; // map to [0; 1] => [0; 255]
-            ctx.fillStyle = `rgb(0,0,${color})`;
+            ctx.fillStyle = rgb(data.map[cell.y][cell.x]);
             ctx.fillRect(
                 cellSize * cell.x, cellSize * cell.y,
                 cellSize, cellSize
