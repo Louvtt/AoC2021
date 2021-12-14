@@ -13,7 +13,6 @@ const readData = (txt) => {
         data.pairs[pair] = elmt;
     }
 
-
     return data;
 }
 
@@ -33,15 +32,14 @@ const processData = (data) => {
     }
     console.log(data.input);
 
-    const processInput = () => {
+    for(let i = 0; i < it; ++i)
+    {
         let tmp = {};
         for(let pair in data.input)
         {
             let c = data.pairs[pair];
             let p1 = pair[0] + c,
                 p2 = c + pair[1];
-            // console.log(pair, c, "=>", p1, p2);
-
             let nb = data.input[pair];
             const kk = Object.keys(tmp);
             if(!kk.includes(p1)) tmp[p1] = 0;
@@ -50,36 +48,30 @@ const processData = (data) => {
             tmp[p2] += nb;
         }
         data.input = {...tmp};
-    }
 
-    const countElements = () => {
-        let counts = {};
-        let kk = Object.keys(data.input);
-        for(let c of kk)
-        {
-            if(!counts[c[0]]) counts[c[0]] = 0;
-            counts[c[0]] += data.input[c];
-        }
-        console.log(counts);
-        
-        let k = Object.keys(counts)[0];
-        let min = counts[k]
-            max = counts[k];
-        for(let c in counts) {
-            min = Math.min(min, counts[c]);
-            max = Math.max(max, counts[c]);
-        }
-
-        console.log(`min: ${min}, max: ${max}, result: ${max - min + 1}`);
-    }
-
-    for(let i = 0; i < it; ++i)
-    {
-        processInput();
         console.log("After step", i+1, ":", data.input);
     }
 
-    countElements();
+    // count elements
+    let counts = {};
+    let kk = Object.keys(data.input);
+    for(let c of kk)
+    {
+        if(!counts[c[0]]) counts[c[0]] = 0;
+        counts[c[0]] += data.input[c];
+    }
+    console.log(counts);
+    
+    // find min and max
+    let k = Object.keys(counts)[0];
+    let min = counts[k]
+        max = counts[k];
+    for(let c in counts) {
+        min = Math.min(min, counts[c]);
+        max = Math.max(max, counts[c]);
+    }
+
+    console.log(`min: ${min}, max: ${max}, result: ${max - min + 1}`);
 }
 
 
